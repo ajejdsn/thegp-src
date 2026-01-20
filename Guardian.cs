@@ -1,5 +1,5 @@
 /*
- * © 2026 SnAjejd
+ * Â© 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-/// THE GEN PROJECT INTERNAL ALPHA (^owo^)
 
 // ---------============== ATTENTION ==============---------
 //  This software uses Windows system libraries that do not require administrator privileges (UAC).
@@ -50,14 +49,7 @@ using UnityEngine.Diagnostics;
 using TMPro;
 
 
-// Guided by the siege`s grace,
-// Sent you to heaven`s gates.
-// When the flail knoks your skull,
-// See the fear of God on your face.
-// Soldiers dropping like flies,
-// Disease and famine.
-// Be it black plague or leprosy, 
-// ETERNAL DAMNATION!
+
 
 public class Guardian : MonoBehaviour
 {
@@ -108,12 +100,7 @@ public class Guardian : MonoBehaviour
     public Image addexp;
     public Image mouth;
     public TMP_Text valueText;
-   // private string UserName = Environment.UserName;
-    //public string deviceName = SystemInfo.deviceName;
-   // private string os = SystemInfo.operatingSystem;
-  //  private string cpuVendor = SystemInfo.processorType;
-   // private string gpu = SystemInfo.graphicsDeviceName;
-  //  private int ram = SystemInfo.systemMemorySize;
+
 
 
     void Start()
@@ -188,4 +175,5 @@ public class Guardian : MonoBehaviour
             }, IntPtr.Zero);
         }
     }
+
 
