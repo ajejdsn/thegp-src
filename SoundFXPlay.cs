@@ -1,6 +1,6 @@
 
 /*
- * © 2025 SnAjejd
+ * Â© 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundFXPlay : MonoBehaviour
@@ -39,7 +37,6 @@ public class SoundFXPlay : MonoBehaviour
             SFXSource.PlayOneShot(SFXSource.clip); 
         }
     }
-
     public void PlaySFX()
     {
         if (SFXSource.clip == null || SFXSource.clip == beepClip && sfxClip != null)
@@ -49,12 +46,11 @@ public class SoundFXPlay : MonoBehaviour
         if (SFXSource.clip != null)
         {
             float rPitch = Random.Range(minPitch, maxPitch);
-
             SFXSource.pitch = rPitch;
             SFXSource.PlayOneShot(SFXSource.clip);
         } else
         {
-            Debug.LogError("Error 2"); // Where`s the first error? Blinker ate it. Again.
+            Debug.LogError("Error 2");
         }
     }
 
