@@ -1,6 +1,6 @@
 
 /*
- * © 2025 SnAjejd
+ * Â© 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Collections;
 using System.Runtime.InteropServices;
-using UnityEngine.UI;
-using UnityEngine.Diagnostics;
 using System;
 
 public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
@@ -32,15 +30,12 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     private static extern int MessageBox(IntPtr hWnd, string text, string caption, uint type); // I regret nothing.
-    private const uint MB_OK = 0x00000000;
-    private const uint MB_ICONERROR = 0x00000010;
+
     private const uint MB_ICONWARN = 0x00000030;
     public int violationCounter = 0;
     private string lastEye = "";
     private string lastMouth = "";
     private string lastAddExpr = "";
-    private float delay1 = 0.5f;
-    private float delay2 = 10f;
     private bool isShake = false;
 
     private Coroutine typingCoroutine;
@@ -52,7 +47,6 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
     public TMP_Text expText;
     public TMP_Text dialText;
     public TMP_Text valueText;
-    public TMP_Text valueGText;
     public TMP_FontAsset defFont;
     public TMP_FontAsset violFont;
     public Guardian guardian;
@@ -66,11 +60,6 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
     public float minPitch = 0.92f;
     public float maxPitch = 1.12f;
     
-    public float typingGSpeed = 0.05f;
-    public AudioSource voiceGSource;
-    public AudioClip voiceGClip;
-    public float minGPitch = 0.90f;
-    public float maxGPitch = 1.5f;
 
     private Dictionary<string, string> mainMap = new Dictionary<string, string>()
     {
@@ -116,7 +105,6 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
     }
     public void CleanUp()
     {
-        // MessageBox(IntPtr.Zero, "cleanup end", "CleanUp", 0x30); imma remove it
         valueText.font = defFont;
         
         violationCounter = 0;
@@ -152,9 +140,9 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
             Debug.LogWarning("unexpected format: " + rawLlmOutput);
             SetError(2, rawLlmOutput);
             if (valueText != null) valueText.text = "> Whoa! I feel... Error. Can you retry? ";
-            if (mainText != null) mainText.text = "Emote: N/A"; // _____ Debug End _________
+            if (mainText != null) mainText.text = "Emote: N/A"; 
             if (expText != null) expText.text = "Expr.: N/A";
-            if (dialText != null) dialText.text = "Status: N/A(" + violationCounter + ")"; // Debug ^
+            if (dialText != null) dialText.text = "Status: N/A(" + violationCounter + ")"; 
 
             if (spriteController != null) spriteController.SetPanicState();
 
@@ -182,16 +170,16 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
         string dialogueText = match.Groups[4].Value;
 
         dialogueText = dialogueText.Trim().Replace("\\o/", "").Trim();
-        const string tokenCleanupPattern = @"\b(M_|EXP_|DIAL_)\w+\s|[/\$]"; // and here
+        const string tokenCleanupPattern = @"\b(M_|EXP_|DIAL_)\w+\s|[/\$]"; //this thing cleans the parsed AI output from useless tokens
         dialogueText = Regex.Replace(dialogueText, tokenCleanupPattern, "", RegexOptions.IgnoreCase).Trim();
 
         string emote = mainMap.ContainsKey(emoteRaw) ? mainMap[emoteRaw] : emoteRaw;
         string exp = expMap.ContainsKey(expRaw) ? expMap[expRaw] : expRaw;
         string dial = dialMap.ContainsKey(dialRaw) ? dialMap[dialRaw] : dialRaw;
 
-        if (mainText != null) mainText.text = "Emote: " + emote; // Debug text end
+        if (mainText != null) mainText.text = "Emote: " + emote; 
         if (expText != null) expText.text = "Expr.: " + exp;
-        if (dialText != null) dialText.text = "Status: (" + violationCounter + ")" + dial; // Debug text ^
+        if (dialText != null) dialText.text = "Status: (" + violationCounter + ")" + dial;
 
         if (!isShake && spriteController != null)
         {
@@ -215,14 +203,11 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
         typingCoroutine = StartCoroutine(TypeDialogueText(dialogueText));
     }
    
-    // StartCoroutine(TypeDialogueText("Test"));
-   
     private IEnumerator TypeDialogueText(string textToType) // typewriter
     {
         if (valueText == null) yield break;
 
-        valueText.text = "- ";
-
+        valueText.text = "> ";
         for (int i = 0; i < textToType.Length; i++)
         {
             char letter = textToType[i];
@@ -233,16 +218,11 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
                 voiceSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
                 voiceSource.PlayOneShot(voiceClip); // beep!
             }
-
-         
             if (letter == '.' && i + 2 < textToType.Length &&
                 textToType[i + 1] == '.' && textToType[i + 2] == '.')
             {
-                
                 valueText.text += ".."; // Stutter? Sehr Gut.
                 i += 2; 
-
-                
                 yield return new WaitForSeconds(typingSpeed * 20f);
             }
             else
@@ -250,11 +230,8 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
                 yield return new WaitForSeconds(typingSpeed);
             }
         }
-
         typingCoroutine = null;
     }
-
-   
 
     public void TriggerWindowShakeReaction()
     {
@@ -274,7 +251,7 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
 
         if (spriteController != null)
         {
-            spriteController.SetMimic(lastEye, lastMouth, lastAddExpr); // necromancer
+            spriteController.SetMimic(lastEye, lastMouth, lastAddExpr); 
         }
 
         isShake = false;
@@ -288,7 +265,7 @@ public class MsgParser : MonoBehaviour // It`s beta, I know that it`s bad.
         }
         if (Counter == 2)
         {
-            MessageBox(IntPtr.Zero, $"Parser returned error!\nRaw Output:{rawError}\nReason:AI returned incompatible status.\nThe massege is not removed from conversation history, please, try again.\n \nIf problem is not fixed, click blue button or contact developer.", "Error!", MB_ICONWARN);
+            MessageBox(IntPtr.Zero, $"Parser returned error!\nRaw Output:{rawError}\nReason:AI returned incompatible service syntax.\nThe message is not removed from conversation history, please, try again.\n \nIf problem is not fixed, click blue button to reset context or contact developer.", "Error!", MB_ICONWARN);
         }
         if (Counter == 3)
         {
