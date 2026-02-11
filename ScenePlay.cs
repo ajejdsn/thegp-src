@@ -1,5 +1,5 @@
-﻿/*
- * © 2025 SnAjejd
+/*
+ * © 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-
-
-
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class ScenePlay : MonoBehaviour
 {
     public FadeManager fadeMgr;
     public void LoadWScene()
     {
         fadeMgr.fadeX();
-        SceneManager.LoadScene("WorkSc"); // You`re curious, didn`t you?~
-        Debug.Log("WorkSc");             // You are exploring this code, naughty little boy~
+        SceneManager.LoadScene("WorkSc"); // You`re curious, aren`t you?~
+        Debug.Log("WorkSc");             
     }
     public void QuitApp()
     {
@@ -54,7 +47,6 @@ public class ScenePlay : MonoBehaviour
     }
     public void ReturnSc()
     {
-
         SceneManager.LoadScene("MainMenu");
         fadeMgr.fadeX();
     }
@@ -72,10 +64,6 @@ public class ScenePlay : MonoBehaviour
     {
         Application.OpenURL("http://ajejdsn.itch.io");
     }
-
 }
-
-
-// CHAOS!!! CHAOS!!!
 
 
