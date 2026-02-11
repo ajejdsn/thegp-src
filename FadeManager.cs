@@ -1,5 +1,5 @@
 /*
- * © 2025 SnAjejd
+ * Â© 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -118,10 +118,9 @@ public class FadeManager : MonoBehaviour
             }
 
             fadeFg.color = new Color(imgColor.r, imgColor.g, imgColor.b, 1f);
-            yield return new WaitForSeconds(fadeDelay); // ________________________ CLEANUP END
             fadeFg.color = new Color(imgColor.r, imgColor.g, imgColor.b, 0f);
             fadeText.enabled = false;
-            fadeFg.enabled = false;  //                  CLEANUP ^
+            fadeFg.enabled = false; 
         }
     }
 }
