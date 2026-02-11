@@ -1,5 +1,5 @@
 /*
- * © 2025 SnAjejd
+ * © 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  */
 
 
-
+// v1.5.9
 
 using System.Collections;
 using UnityEngine;
@@ -35,9 +35,7 @@ public class EmotionController : MonoBehaviour
     public Sprite eyeSad;
     public Sprite eyeConfused;
     public Sprite eyeShame;
-    // EYE DIM 
     public Sprite eyeDim;
-    public Sprite eyeDim1;
     public Sprite eyeFear;
     public Sprite eyePanic;
     public Sprite eyeDef;
@@ -51,7 +49,6 @@ public class EmotionController : MonoBehaviour
     public Sprite mouthSad;
     public Sprite mouthBlush;
     public Sprite mouthFear;
-    public Sprite mouthFear2;
     public Sprite mouthPanic;
     public Sprite mouthSmlShock;
     public Sprite mouthHeadUp;
@@ -60,14 +57,13 @@ public class EmotionController : MonoBehaviour
     [Header("Additional Expression")]
     public Sprite addExprNone;
     public Sprite addExprBlush;
-    public Sprite addExprBlush2;
     //addexpr violation
     public Sprite addExprViolation;
     public Sprite addExprViolation2;
     //addexpr sweat
     public Sprite addExprSweat1;
     public Sprite addExprSweat2;
-    public Sprite addExprSweat3; //idk
+    public Sprite addExprSweat3;
 
     [Header("Facial Mask")]
     public Sprite Glitch01; // not used in demo
@@ -75,9 +71,8 @@ public class EmotionController : MonoBehaviour
     public Sprite Glitch03;
     public Sprite Glitch04;
 
-    private Sprite oldEye;
+    public Sprite oldEye;
     private bool isBlink = false;
-    private bool isRunAnim = false; // imma create some anims to emotions
     private bool isGlitch = false;
     // :3
 
@@ -139,7 +134,6 @@ public class EmotionController : MonoBehaviour
             case "Shame": return mouthShame;
             case "Fear": return mouthFear;
             case "Panic": return mouthPanic;
-           // default: return mouthDef;
         }
 
         switch (exp)  
@@ -168,15 +162,8 @@ public class EmotionController : MonoBehaviour
 
         return addExprNone;
     }
-    // /\___/\
-    // ( o o ) 
-    //  \ ^ /
-    //   \x/
 
-
-
-
-
+    // @.@
 
     IEnumerator Blinker()
     {
@@ -185,13 +172,10 @@ public class EmotionController : MonoBehaviour
         isBlink = true;
         oldEye = eyeRender.sprite;
         eyeRender.sprite = eyeBlink1;
-       // Debug.Log("Blink1");
         yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.15f));
         eyeRender.sprite = eyeBlink2;
-       // Debug.Log("Blink2");
         yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.15f));
         eyeRender.sprite = oldEye;
-       // Debug.Log("nya!");
         yield return new WaitForSeconds(UnityEngine.Random.Range(7f, 15f));
         isBlink = false;
     }
@@ -212,24 +196,12 @@ public class EmotionController : MonoBehaviour
         fmaskRender.sprite = Glitch01;
         yield return new WaitForSeconds(UnityEngine.Random.Range(15f, 35f));
         isGlitch = false;
-
     }
     public void GlitchTest()
     {
         StartCoroutine(Glitcher());
     }
-    IEnumerator Animator(Sprite sprite)
-    {
-        if (isRunAnim) yield break;
-        if (sprite = eyeDim)
-        {
-            isRunAnim = true;
-
-
-        }
-
-        
-    }
+   
 
     void Update()
     {
@@ -237,16 +209,11 @@ public class EmotionController : MonoBehaviour
         {
             StartCoroutine(Blinker());  
         }                            
-
-
         if (!isGlitch)
         {
             StartCoroutine(Glitcher());
         }
-        if (!isRunAnim)
-        {
-            StartCoroutine(Animator(eyeRender.sprite));
-        }
+       
     }
 
 }
