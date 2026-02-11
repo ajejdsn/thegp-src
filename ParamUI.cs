@@ -1,6 +1,6 @@
 
 /*
- * © 2025 SnAjejd
+ * Â© 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,27 +18,20 @@
  */
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ParamUI : MonoBehaviour
 {
     public Slider musicVolumeSlider;
-    public TMP_Dropdown dpdown;
-    public TMP_InputField ifield;
-
     void Start()
     {
         if (SettingsManager.Instance == null)
         {
             return;
         }
-        dpdown.value = SettingsManager.Instance.bMonth;
-        ifield.text = SettingsManager.Instance.bDay;
         musicVolumeSlider.value = SettingsManager.Instance.MusicVolume;
 
         musicVolumeSlider.onValueChanged.AddListener(SettingsManager.Instance.SetMusicVolume);
     }
-   
     void OnDestroy()
     {
         if (musicVolumeSlider != null)
