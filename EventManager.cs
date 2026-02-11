@@ -1,5 +1,5 @@
 /*
- * © 2025 SnAjejd
+ * Â© 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,11 +16,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-
-using System.Collections;
-using System.Collections.Generic;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 public class EventManager : MonoBehaviour
@@ -33,20 +28,14 @@ public class EventManager : MonoBehaviour
     public Sprite loveSprite; // char_event2
     public Sprite autumnSprite; //  char_event3
     public Sprite birthdaySprite; // char_event4
-    // made with love and circuits
+    // it may be wrong, i guess
     void Start()
     {
         Debug.Log("START");
         System.DateTime today = System.DateTime.Now;
-
-        DateTime winterDate = new DateTime(today.Year, 12, 20);
-        DateTime winterEnd = new DateTime(today.Year, 1, 5);
-        DateTime autumnDate = new DateTime(today.Year, 10, 31);
-        DateTime autumnEnd = new DateTime(today.Year, 11, 2); // why is it still here? 
-
         if (today.Month == 12 && today.Day >= 20)
         {
-            pcImage.sprite = winterSprite; // winter!! ^w^
+            pcImage.sprite = winterSprite; // The snow is fluffy.
             Debug.Log("winter");
         } else if (today.Month == 11 && today.Day <= 10)
         {
@@ -54,7 +43,7 @@ public class EventManager : MonoBehaviour
             Debug.Log("autumn");
         } else if (today.Day == 21 && today.Month == 6)
         {
-            pcImage.sprite = birthdaySprite; // 21.06 ^-^
+            pcImage.sprite = birthdaySprite; 
         } else if (today.Day == 14 && today.Month == 2)
         {
             pcImage.sprite = loveSprite; // <3
@@ -62,8 +51,5 @@ public class EventManager : MonoBehaviour
         {
             pcImage.sprite = defSprite;
         }
-
-
-        // ngl he is so cute
     }
 }
