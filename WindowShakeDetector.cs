@@ -1,5 +1,5 @@
 /*
- * © 2025 SnAjejd
+ * Â© 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,24 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-
-
-
-
-
-
-
-
-
 using UnityEngine;
-using System.Runtime.InteropServices;
 using System;
-
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 public class WindowShakeDetector : MonoBehaviour
 {
-    [Header("Msg Parser")]
+    [Header("Parser")]
     public MsgParser parser;
-
+    [Header("Shake")]
+    public float shakeThreshold = 5f;      
+    public float requiredDuration = 0.1f;  
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {
@@ -42,59 +35,69 @@ public class WindowShakeDetector : MonoBehaviour
         public int bottom;
     }
 
-    [DllImport("user32.dll")] // I regret nothing.
-    private static extern IntPtr GetForegroundWindow();
-
     [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect); 
-
+    private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+    [DllImport("user32.dll")]
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+    private IntPtr gHwnd = IntPtr.Zero;
     private Vector2 lastPosition;
-    private float shakeThreshold = 0.05f;
-    private float shakeDuration = 0f;
-    private float requiredDuration = 0.1f;
+    private float shakeDuration;
 
     void Start()
     {
-        lastPosition = Vector2.zero; // aaahhh~
+        gHwnd = GetGWindow();
+        lastPosition = Vector2.zero; 
     }
 
     void Update()
     {
-        if (parser == null) return;
-
-        IntPtr hWnd = GetForegroundWindow(); // works with any window xD
-        RECT rect;
-
-        if (GetWindowRect(hWnd, out rect))
+        if (parser == null || gHwnd == IntPtr.Zero)
+            return;
+        if (!GetWindowRect(gHwnd, out RECT rect))
+            return;
+        Vector2 currentPosition = new Vector2(rect.left, rect.top);
+        if (lastPosition == Vector2.zero)
         {
-            Vector2 currentPosition = new Vector2(rect.left, rect.top);
-
-            if (lastPosition == Vector2.zero)
-            {
-                lastPosition = currentPosition;
-                return;
-            }
-
-            float displacement = Vector2.Distance(currentPosition, lastPosition); //how tf it works?
-
-            if (displacement > shakeThreshold)
-            {
-                shakeDuration += Time.deltaTime;
-            }
-            else
-            {
-                shakeDuration = 0f;
-            }
-
-            if (shakeDuration > requiredDuration)
-            {
-                parser.TriggerWindowShakeReaction(); // he`s adorable >////<
-                shakeDuration = 0f;
-            }
-
-            lastPosition = currentPosition; 
+            lastPosition = currentPosition;
+            return;
         }
-    } 
-}
+        float displacement = Vector2.Distance(currentPosition, lastPosition);
+        if (displacement > shakeThreshold)
+        {
+            shakeDuration += Time.deltaTime;
+            if (shakeDuration >= requiredDuration)
+            {
+                parser.TriggerWindowShakeReaction();
+                shakeDuration = 0f;
+            }
+        }
+        else
+        {
+            shakeDuration = 0f;
+        }
+        lastPosition = currentPosition;
+    }
+    private IntPtr GetGWindow()
+    {
+        IntPtr found = IntPtr.Zero;
+        uint currentProcessId = (uint)Process.GetCurrentProcess().Id;
 
+        EnumWindows((hWnd, lParam) =>
+        {
+            GetWindowThreadProcessId(hWnd, out uint processId);
+
+            if (processId == currentProcessId)
+            {
+                found = hWnd;
+                return false; 
+            }
+            return true;
+        }, IntPtr.Zero);
+        return found;
+    }
+}
