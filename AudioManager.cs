@@ -1,5 +1,5 @@
 /*
- * © 2025 SnAjejd
+ * © 2026 SnAjejd
  * Part of the TheGen project.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-
-
-
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -29,7 +26,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     void Awake()
-    { // it`s not awake
+    { // it`s not awake, it`s the spy!
 
         if (Instance == null)
         {
@@ -46,7 +43,6 @@ public class AudioManager : MonoBehaviour
 
         if (SettingsManager.Instance != null)
         {
-
             ApplyVolume(SettingsManager.Instance.MusicVolume);
         }
     }
@@ -56,9 +52,7 @@ public class AudioManager : MonoBehaviour
     {
         if (musicSource != null)
         {
-
             musicSource.volume = volume; // dolbit normal`no
-
         }
     }
 }
